@@ -36,7 +36,13 @@
     </div>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-    
-    <script src="dist/bundle.js"></script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmpwpjjKGz9M4AvfbAt7QW1qdK8683fEE&callback=initMap">
+    </script>
+    <script>
+        function initMap() {
+            new google.maps.places.Autocomplete(document.getElementById('initial_location'));
+        }
+    </script>
 </body>
 </html>
