@@ -12,43 +12,31 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <style type="text/css">
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-
-        #fullscreen-wrapper {
-            height: 100%;
-            width: 100%;
-        }
-
-        .slide {
-            height: 100%;
-            width: 100%;
-            opacity: 0.0;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
-
     <!--[if lt IE 9]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
     <![endif]-->
 </head>
 
 <body>
-    <div id="fullscreen-wrapper" style="background-color:red;">
-        <div class="slide" id="slide1" style="opacity:1.0;">
-            slide 1
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Pub Crawl Planner</a>
         </div>
-        <div class="slide" id="slide2">
-            slide 2
+    </nav>
+    <div class="container">
+        <div class="row" style="text-align: center;"><h1>Create the perfect pub crawl</h1></div>
+        <div class="row" style="text-align: center;"><h2>First thing first</h2></div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="initial_location" type="text" class="validate">
+                <label for="initial_location">Initial location (ex: McGill SSMU)</label>
+            </div>
         </div>
+        <div>
     </div>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    
     <script src="dist/bundle.js"></script>
 </body>
 </html>
