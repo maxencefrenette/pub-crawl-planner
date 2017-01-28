@@ -1,0 +1,54 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Pub Crawl Planner</title>
+
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #fullscreen-wrapper {
+            height: 100%;
+            width: 100%;
+        }
+
+        .slide {
+            height: 100%;
+            width: 100%;
+            opacity: 0.0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="fullscreen-wrapper" style="background-color:red;">
+        <div class="slide" id="slide1" style="opacity:1.0;">
+            slide 1
+        </div>
+        <div class="slide" id="slide2">
+            slide 2
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="dist/bundle.js"></script>
+</body>
+</html>
