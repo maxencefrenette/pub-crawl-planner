@@ -25,24 +25,32 @@
     </nav>
     <div class="container">
         <div class="row" style="text-align: center;"><h1>Create the perfect pub crawl</h1></div>
-        <div class="row" style="text-align: center;"><h2>First thing first</h2></div>
+        <div class="row" style="text-align: center;"><h3>Start and End Points</h3></div>
         <div class="row">
             <div class="input-field col s12">
-                <input id="initial_location" type="text" class="validate">
-                <label for="initial_location">Initial location (ex: McGill SSMU)</label>
+                <input placeholder="" id="initial_location" type="text" class="validate">
+                <label for="initial_location">Initial location</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="" id="final_location" type="text" class="validate">
+                <label for="final_location">Final location (where everyone meets at the end)</label>
             </div>
         </div>
         <div>
     </div>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmpwpjjKGz9M4AvfbAt7QW1qdK8683fEE&callback=initMap">
-    </script>
     <script>
         function initMap() {
             new google.maps.places.Autocomplete(document.getElementById('initial_location'));
+            new google.maps.places.Autocomplete(document.getElementById('final_location'));
+
         }
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmpwpjjKGz9M4AvfbAt7QW1qdK8683fEE&libraries=places&callback=initMap">
     </script>
 </body>
 </html>
