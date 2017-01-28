@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "compileOnSave": false,
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "es5",
