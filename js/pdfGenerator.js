@@ -41,6 +41,7 @@ function pdfGenerator(schedule) {
         })
 
       }
+      if (i < schedule.length-1)
         doc.addPage();
     }
 
