@@ -86,6 +86,7 @@ function parse_routes(routes) {
             }
         });
     });
+    console.log(parsed_data);
     pdfGenerator(parsed_data);
 }
 
