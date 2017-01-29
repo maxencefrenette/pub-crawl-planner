@@ -73,6 +73,9 @@ function parse_routes(routes) {
     var current_location_id = -1;
     routes.forEach(function(team, i){
         parsed_data[i] = [];
+        in_bar = false;
+        start_index = -1;
+        end_index = -1;
         team.forEach(function(timeslot, j){
             if ((timeslot !== current_location_id && in_bar) || j === team.length - 1) {
                 end_index = j-1;
