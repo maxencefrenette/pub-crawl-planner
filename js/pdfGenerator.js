@@ -1,7 +1,4 @@
 function pdfGenerator(numberOfTeams, locations, combinations) {
-    //this.numberOfTeams = numberOfTeams;
-    //this.numberOfLocations = numberOfLocations;
-    //this.combinations = combinations;
     var combinationsLength = 3; //TODO
 
     /// create a document and pipe to a blob
