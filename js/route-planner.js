@@ -49,7 +49,7 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
 
 
     // A stop hosts one team at a time
-    for (var location = 0; location < this.numLocation; location++) {
+    for (var location = 1; location < this.numLocations - 1; location++) {
         for (var timeSlot = 0; timeSlot < this.numTimeSlots; timeSlot++) {
             solver.require(Logic.atMostOne(_.range(this.numTeams).map(function(team) {
                 return v(team, location, timeSlot);
@@ -80,7 +80,7 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
             for (var centralTimeSlot = 0; centralTimeSlot < this.numTimeSlots; centralTimeSlot++) {
                 var constraints = [];
                 for (var i = Math.min(0); i < 3; i++) {
-                    if (centralTimeSlot - i >= 0 && centralTimeSlot - i + 3 < this.numTimeSlots) {
+                    if (centralTimeSlot - i >= 0 && centralTimeSlot - i + 3 <= this.numTimeSlots) {
                         constraints.push(Logic.and(_.range(centralTimeSlot - i, centralTimeSlot - i + 3).map(function(timeSlot) {
                             return v(team, location, timeSlot);
                         })));
@@ -95,14 +95,14 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
 
     // Teams start at the starting location
     for (var team = 0; team < this.numTeams; team++) {
-        for (var timeSlot = 0; timeSlot < this.numTimeSlot - 1; timeSlot++) {
+        for (var timeSlot = 0; timeSlot < this.numTimeSlots - 1; timeSlot++) {
             solver.require(Logic.implies(v(team, 0, timeSlot + 1), v(team, 0, timeSlot)));
         }
     }
 
     // Teams end at the final location
     for (var team = 0; team < this.numTeams; team++) {
-        for (var timeSlot = 0; timeSlot < this.numTimeSlot - 1; timeSlot++) {
+        for (var timeSlot = 0; timeSlot < this.numTimeSlots - 1; timeSlot++) {
             solver.require(Logic.implies(v(team, this.numLocations - 1, timeSlot), v(team, this.numLocations - 1, timeSlot + 1)));
         }
     }
