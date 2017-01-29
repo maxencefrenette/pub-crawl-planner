@@ -79,7 +79,7 @@ function parse_routes(routes) {
         team.forEach(function(timeslot, j){
             if ((timeslot !== current_location_id && in_bar) || j === team.length - 1) {
                 end_index = j-1;
-                parsed_data[i].push({startTime: new Date(startTime.getTime() + (start_index * 300000)), endTime: new Date(startTime.getTime() + (end_index * 300000)), spot: locations[current_location_id]});
+                parsed_data[i].push({startTime: new Date(startTime.getTime() + (start_index * 300000)), endTime: new Date(startTime.getTime() + ((end_index + 1) * 300000)), spot: locations[current_location_id]});
                 in_bar = false;
             }
             if (timeslot !== undefined && !in_bar) {
