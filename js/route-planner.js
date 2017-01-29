@@ -153,8 +153,3 @@ RoutePlanner.prototype.dist = function(a, b) {
 function v(team, location, timeSlot) {
     return team + ' ' + location + ' ' + timeSlot;
 }
-
-// Similar to Logic.atMostOne()
-function atMost(n, variables) {
-    // TODO
-}
