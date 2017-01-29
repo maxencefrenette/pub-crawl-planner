@@ -39,7 +39,19 @@ $('#location_number').change(function(){
 
 $("#generate-btn").click(function(){
     check_inputs();
+    var locations = get_locations();
 });
+
+function get_locations() {
+    var locations = [];
+    var i = 0;
+    var element;
+    while($('#pub'+i).length !== 0) {
+        locations.push($('#pub'+i).val());
+        i++;
+    }
+    return locations;
+}
 
 function check_inputs() {
     console.log("TODO: Check the address validity");
