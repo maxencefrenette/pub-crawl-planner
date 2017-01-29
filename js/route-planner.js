@@ -9,6 +9,8 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
     this.numTeamsPerLocation = 2;
     this.minTimeAtLocation = 15*60*1000; // 15 minutes
     this.minTimeSlotsPerLocation = this.minTimeAtLocation / this.timeSlotSize;
+    this.maxTimeTraveling = 25*60*1000; // 25 minutes
+    this.maxTimeSlotsTraveling = this.maxTimeTraveling / this.timeSlotSize;
 }
 
 RoutePlanner.prototype.generateRoutes = function(callback) {
@@ -98,7 +100,17 @@ RoutePlanner.prototype.computeRoutes = function() {
     }
 
     // Allocated travel time is not significantly longer than this.maxTravelTime
-
+    for (var team = 0; team < this.numTeams; team++) {
+        for (var timeSlot = 0; timeSlot < this.numTimeSlots - this.maxTimeSlotsTraveling; timeSlot++) {
+            var constraints = [];
+            for (var i = 0; i < this.maxTimeSlotsTraveling; i++) {
+                constraints.push(Logic.or(_.range(this.numLocations).map(function(location) {
+                    return v(team, location, timeSlot+i);
+                })));
+            }
+            solver.require(Logic.or(constraints));
+        }
+    }
 
     // Teams start at the starting location
     for (var team = 0; team < this.numTeams; team++) {
