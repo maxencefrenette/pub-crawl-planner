@@ -45,9 +45,6 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
         }
     }
 
-    // Teams visit every stop only once
-
-
     // A stop hosts one team at a time
     for (var location = 1; location < this.numLocations - 1; location++) {
         for (var timeSlot = 0; timeSlot < this.numTimeSlots; timeSlot++) {
