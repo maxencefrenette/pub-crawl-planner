@@ -37,6 +37,12 @@ $('#location_number').change(function(){
     }
 });
 
+function show_wait_message() {
+    $("#generate-btn").fadeOut(300, function() {
+        $("#wait-message").hide().fadeIn(300);
+    });
+}
+
 // ########## GENERATE THE REPORT ##########
 $("#generate-btn").click(function(){
     check_inputs();
@@ -46,6 +52,8 @@ $("#generate-btn").click(function(){
     var final_location = get_final_location();
     var locations = _.flatten([initial_location, pub_locations, final_location]);
     var time = get_dates();
+
+    show_wait_message();
 
     var planner = new RoutePlanner(num_teams, locations, time.start, time.end);
     var routes = planner.generateRoutes(console.log.bind(console));
