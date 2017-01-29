@@ -10,10 +10,10 @@ $(document).ready(function() {
 });
 
 
-$('#location_number').change(function(){
-    var location_number = $('#location_number').val();
+$('#location_count').change(function(){
+    var location_count = $('#location_count').val();
     var out = "";
-    for(var i=0;i<location_number;i++) {
+    for(var i=0;i<location_count;i++) {
         if ($('#pub'+i)) {
             var previous_content = $('#pub'+i).val();
         }
@@ -30,7 +30,7 @@ $('#location_number').change(function(){
     }
     $("#locations").html(out);
     $('select').material_select();
-    for(var i=0;i<location_number;i++) {
+    for(var i=0;i<location_count;i++) {
         new google.maps.places.Autocomplete(document.getElementById('pub'+i));
         // Solves a bug where the input label would overlap the already present content
         $('#pub'+i).focus();
@@ -98,9 +98,6 @@ function get_dates() {
 // ########## DATA CHECKING ##########
 function check_inputs() {
     console.log("TODO: Check the address validity");
-    if (!parseInt($('#team_count').val(), 10)) {
-        alert("The number of team is not a valid integer.");
-    }
     if (!get_initial_location()) {
         alert("The initial location is empty.");
     }
@@ -116,6 +113,9 @@ function check_inputs() {
             alert("There is an empty pub location.");
             return false;
         }
+    }
+    if (!parseInt($('#team_count').val(), 10)) {
+        alert("The number of team is not a valid integer.");
     }
     return check_dates();
 }
