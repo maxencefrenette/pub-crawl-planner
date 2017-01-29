@@ -8,8 +8,10 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
   this.numTimeSlots = Math.floor((this.endTime - this.startTime) / this.timeSlotSize);
 }
 
-RoutePlanner.prototype.generateRoutes = function() {
-  this.fetchDistances(this.computeRoutes.bind(this));
+RoutePlanner.prototype.generateRoutes = function(callback) {
+  this.fetchDistances((function() {
+    this.computeRoutes(callback);
+  }).bind(this));
 }
 
 RoutePlanner.prototype.fetchDistances = function(callback) {
@@ -31,7 +33,7 @@ RoutePlanner.prototype.fetchDistances = function(callback) {
   }).bind(this));
 }
 
-RoutePlanner.prototype.computeRoutes = function() {
+RoutePlanner.prototype.computeRoutes = function(callback) {
   var solver = new Logic.Solver();
 
   // Teams have to visit every stop
@@ -104,6 +106,25 @@ RoutePlanner.prototype.computeRoutes = function() {
       solver.require(Logic.implies(v(team, this.numTimeSlot - 1, timeSlot), v(team, this.numTimeSlot - 1, timeSlot + 1)));
     }
   }
+
+  var solution = solver.solve();
+  var solutionMap = solution.getMap();
+
+  var routes = [];
+  for (var team = 0; team < this.numTeams; team++) {
+    routes[team] = [];
+    for (var timeSlot = 0; timeSlot < this.numTimeSlots; timeSlot++) {
+      routes[team][timeSlot] = undefined;
+      for (var location = 0; location < this.numLocations; location++) {
+        var isAtLocation = solutionMap[v(team, location, timeSlot)];
+        if (isAtLocation) {
+          routes[team][timeSlot] = location;
+        }
+      }
+    }
+  }
+
+  callback(routes);
 }
 
 /**

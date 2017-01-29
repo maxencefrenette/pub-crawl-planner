@@ -1,3 +1,4 @@
+// ########## UI THINGS ##########
 function initMap() {
     new google.maps.places.Autocomplete(document.getElementById('initial_location'));
     new google.maps.places.Autocomplete(document.getElementById('final_location'));
@@ -6,7 +7,6 @@ function initMap() {
 
 $(document).ready(function() {
     $('select').material_select();
-    $('.timepicker').wickedpicker();
 });
 
 
@@ -37,27 +37,80 @@ $('#location_number').change(function(){
     }
 });
 
+// ########## GENERATE THE REPORT ##########
 $("#generate-btn").click(function(){
     check_inputs();
+    var pub_locations = get_pub_locations();
+    var initial_location = get_intial_location();
+    var final_location = get_final_location();
 });
 
+// ########## GETTERS ##########
+function get_pub_locations() {
+    var locations = [];
+    var i = 0;
+    var element;
+    while($('#pub'+i).length !== 0) {
+        locations.push($('#pub'+i).val());
+        i++;
+    }
+    return locations;
+}
+
+function get_intial_location() {
+    return $('#initial_location').val();
+}
+
+function get_final_location() {
+    return $('#final_location').val();
+}
+
+function get_dates() {
+  var startTime = chrono.parse($('#start_time').val())[0].start.date();
+  var endTime = chrono.parse($('#end_time').val())[0].start.date();
+
+  return {
+    start: startTime,
+    end:endTime
+  }
+}
+
+// ########## DATA CHECKING ##########
 function check_inputs() {
     console.log("TODO: Check the address validity");
-    check_dates();
+    if (!parseInt($('#team_count').val(), 10)) {
+        alert("The number of team is not a valid integer.");
+    }
+    if (!get_intial_location()) {
+        alert("The initial location is empty.");
+    }
+    if (!get_final_location()) {
+        alert("The final location is empty.");
+    }
+    var locations = get_pub_locations();
+    if (locations.length < 1) {
+        alert("There must be at least of pub location.");
+    }
+    for (var location of locations) {
+        if (!location) {
+            alert("There is an empty pub location.");
+            return false;
+        }
+    }
+    return check_dates();
 }
 
 function check_dates() {
-    var start_time = moment('2015-01-01, ' + $("#start_time").val(), 'YYYY-MM-DD, h:mm a');
-    var end_time = moment('2015-01-01, ' + $("#end_time").val(), 'YYYY-MM-DD, h:mm a');
-    if (!start_time) {
-        alert("The start time is not in the HH:mm AM/PM format.");
+    var time = get_dates();
+    if (!time.start) {
+        alert("The start time is empty or invalid.");
         return false;
     }
-    if (!end_time) {
-        alert("The end time is not in the HH:mm AM/PM format.");
+    if (!time.end) {
+        alert("The end time is empty or invalid.");
         return false;
     }
-    if (start_time.valueOf() > end_time.valueOf()) {
+    if (time.start > time.end) {
         alert("The end time must be aftert the start time.");
         return false;
     }
