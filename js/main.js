@@ -7,6 +7,7 @@ function initMap() {
 
 $(document).ready(function() {
     $('select').material_select();
+    $('.modal').modal();
 });
 
 
@@ -100,13 +101,16 @@ function check_inputs() {
     console.log("TODO: Check the address validity");
     if (!get_initial_location()) {
         alert("The initial location is empty.");
+        return false;
     }
     if (!get_final_location()) {
         alert("The final location is empty.");
+        return false;
     }
     var locations = get_pub_locations();
     if (locations.length < 1) {
         alert("There must be at least of pub location.");
+        return false;
     }
     for (var location of locations) {
         if (!location) {
@@ -116,6 +120,7 @@ function check_inputs() {
     }
     if (!parseInt($('#team_count').val(), 10)) {
         alert("The number of team is not a valid integer.");
+        return false;
     }
     return check_dates();
 }
