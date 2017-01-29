@@ -1,10 +1,12 @@
 function initMap() {
     new google.maps.places.Autocomplete(document.getElementById('initial_location'));
     new google.maps.places.Autocomplete(document.getElementById('final_location'));
+    $('#initial_location').removeAttr();
 }
 
 $(document).ready(function() {
     $('select').material_select();
+    $('.timepicker').wickedpicker();
 });
 
 

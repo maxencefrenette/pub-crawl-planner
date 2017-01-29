@@ -9,6 +9,14 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 
+    <link rel="stylesheet" href="css/lib/wickedpicker.min.css">
+
+    <style>
+        .fill {
+            height: 50px;
+        }
+    </style>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!--[if lt IE 9]>
@@ -24,20 +32,20 @@
     </nav>
     <div class="container">
         <div class="row" style="text-align: center;"><h1>Create the Perfect Pub Crawl</h1></div>
+        <div class="fill"></div>
         <div class="row" style="text-align: center;"><h3>Start and End Points</h3></div>
         <div class="row">
-            <div class="input-field col s12">
-                <input placeholder="" id="initial_location" type="text" class="validate">
+            <div class="input-field col s12 m6">
+                <input id="initial_location" type="text" class="validate">
                 <label for="initial_location">Initial location</label>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <input placeholder="" id="final_location" type="text" class="validate">
+            <div class="input-field col s12 m6">
+                <input id="final_location" type="text" class="validate">
                 <label for="final_location">Final location (where everyone meets at the end)</label>
             </div>
         </div>
-        <div class="row" style="text-align: center;"><h3>Pub Locations</h3></div>
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;"><h3>Where ya at?</h3></div>
         <div class="row">
             <div class="input-field col s12 m4">
                 <select id="location_number">
@@ -62,7 +70,24 @@
             </div>
         </div>
         <div id="locations"></div>
-
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;"><h3>Good Old Times</h3></div>
+        <div class="row">
+            <div class="input-field col s12 m6">
+                <input placeholder="" id="start_time" type="text" name="timepicker" class="timepicker validate">
+                <label for="end_time">Start Time</label>
+            </div>
+            <div class="input-field col s12 m6">
+                <input placeholder="" id="end_time" type="text" name="timepicker" class="timepicker validate">
+                <label for="end_time">End Time</label>
+            </div>
+        </div>
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;"><h3>Let's Go!</h3></div>
+        <div class="row" style="text-align: center;">
+            <a class="waves-effect waves-light btn">Generate best route</a>
+        </div>
+        <div class="fill"></div>
     </div>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
@@ -70,6 +95,8 @@
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmpwpjjKGz9M4AvfbAt7QW1qdK8683fEE&libraries=places&callback=initMap">
     </script>
+    <script src="js/lib/wickedpicker.min.js"></script>
+
     <script src="js/lib/logic-solver.js"></script>
     <script src="js/lib/pdfkit.js"></script>
     <script src="js/lib/blob-stream.js"></script>
