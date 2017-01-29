@@ -7,7 +7,6 @@
     <title>Pub Crawl Planner</title>
 
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -24,7 +23,7 @@
         </div>
     </nav>
     <div class="container">
-        <div class="row" style="text-align: center;"><h1>Create the perfect pub crawl</h1></div>
+        <div class="row" style="text-align: center;"><h1>Create the Perfect Pub Crawl</h1></div>
         <div class="row" style="text-align: center;"><h3>Start and End Points</h3></div>
         <div class="row">
             <div class="input-field col s12">
@@ -38,20 +37,38 @@
                 <label for="final_location">Final location (where everyone meets at the end)</label>
             </div>
         </div>
-        <div>
+        <div class="row" style="text-align: center;"><h3>Pub Locations</h3></div>
+        <div class="row">
+            <div class="input-field col s12 m4">
+                <select id="location_number">
+                    <option value="" disabled selected>How many pubs?</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                </select>
+                <label for="location_number">Materialize Select</label>
+            </div>
+        </div>
+        <div id="locations"></div>
+
     </div>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmpwpjjKGz9M4AvfbAt7QW1qdK8683fEE&libraries=places&callback=initMap">
-    </script>
-    <script>
-        function initMap() {
-            new google.maps.places.Autocomplete(document.getElementById('initial_location'));
-            new google.maps.places.Autocomplete(document.getElementById('final_location'));
-
-        }
     </script>
     <script src="js/lib/logic-solver.js"></script>
     <script src="js/lib/pdfkit.js"></script>
