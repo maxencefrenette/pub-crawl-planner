@@ -103,7 +103,7 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
     // Teams end at the final location
     for (var team = 0; team < this.numTeams; team++) {
         for (var timeSlot = 0; timeSlot < this.numTimeSlot - 1; timeSlot++) {
-            solver.require(Logic.implies(v(team, this.numTimeSlot - 1, timeSlot), v(team, this.numTimeSlot - 1, timeSlot + 1)));
+            solver.require(Logic.implies(v(team, this.numLocations - 1, timeSlot), v(team, this.numLocations - 1, timeSlot + 1)));
         }
     }
 
