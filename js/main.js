@@ -6,7 +6,6 @@ function initMap() {
 
 $(document).ready(function() {
     $('select').material_select();
-    $('.timepicker').wickedpicker();
 });
 
 
@@ -40,6 +39,16 @@ $('#location_number').change(function(){
 $("#generate-btn").click(function(){
     check_inputs();
 });
+
+function get_dates() {
+  var startTime = chrono.parse($('#start_time').val())[0].start.date();
+  var endTime = chrono.parse($('#end_time').val())[0].start.date();
+
+  return {
+    start: startTime,
+    end:endTime
+  }
+}
 
 function check_inputs() {
     console.log("TODO: Check the address validity");
