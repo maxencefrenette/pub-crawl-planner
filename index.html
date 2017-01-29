@@ -33,7 +33,7 @@
     <div class="container">
         <div class="row" style="text-align: center;"><h1>Create the Perfect Pub Crawl</h1></div>
         <div class="fill"></div>
-        <div class="row" style="text-align: center;"><h3>Start and End Points</h3></div>
+        <div class="row" style="text-align: center;"><h3>Start and end points</h3></div>
         <div class="row">
             <div class="input-field col s12 m6">
                 <input placeholder="" id="initial_location" type="text" class="validate">
@@ -66,12 +66,20 @@
                     <option value="14">14</option>
                     <option value="15">15</option>
                 </select>
-                <label for="location_number">Materialize Select</label>
+                <label for="location_number">Pub select</label>
             </div>
         </div>
         <div id="locations"></div>
+        <div class="row" style="text-align: center;"><h3>The people</h3></div>
+        <div class="row">
+            <div class="col s12 m2">
+                <label for="team_count">How many teams?</label>
+                <input id="team_count" type="text" value="10">
+            </div>
+        </div>
+        <div id="teams"></div>
         <div class="fill"></div>
-        <div class="row" style="text-align: center;"><h3>Good Old Times</h3></div>
+        <div class="row" style="text-align: center;"><h3>Good old times</h3></div>
         <div class="row">
             <div class="input-field col s12 m6">
                 <input placeholder="" id="start_time" type="text" name="timepicker" class="timepicker" readonly>
@@ -83,7 +91,7 @@
             </div>
         </div>
         <div class="fill"></div>
-        <div class="row" style="text-align: center;"><h3>Let's Go!</h3></div>
+        <div class="row" style="text-align: center;"><h3>Let's go!</h3></div>
         <div class="row" style="text-align: center;">
             <a id="generate-btn" class="waves-effect waves-light btn">Generate best route</a>
         </div>

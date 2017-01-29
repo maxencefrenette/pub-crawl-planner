@@ -43,7 +43,10 @@ $("#generate-btn").click(function(){
 
 function check_inputs() {
     console.log("TODO: Check the address validity");
-    check_dates();
+    if (!parseInt($('#team_count').val(), 10)) {
+        alert("The number of team is not a valid integer.");
+    }
+    return check_dates();
 }
 
 function check_dates() {
