@@ -6,6 +6,9 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
     this.endTime = endTime;
     this.timeSlotSize = 5*60*1000; // 5 minutes
     this.numTimeSlots = Math.floor((this.endTime - this.startTime) / this.timeSlotSize);
+    this.numTeamsPerLocation = 2;
+    this.minTimeAtLocation = 15*60*1000 // 15 minutes
+    this.minTimeSlotsPerLocation = this.minTimeAtLocation / this.timeSlotSize;
 }
 
 RoutePlanner.prototype.generateRoutes = function(callback) {
@@ -45,10 +48,10 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
         }
     }
 
-    // A stop hosts one team at a time
+    // A stop hosts hosts a maximum of this.numTeamsPerLocation teams at a time
     for (var location = 1; location < this.numLocations - 1; location++) {
         for (var timeSlot = 0; timeSlot < this.numTimeSlots; timeSlot++) {
-            solver.require(atMost(2, _.range(this.numTeams).map(function(team) {
+            solver.require(atMost(this.numTeamsPerLocation, _.range(this.numTeams).map(function(team) {
                 return v(team, location, timeSlot);
             })));
         }
@@ -71,14 +74,14 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
         }
     }
 
-    // Teams stay at least 15min per stop
+    // Teams stay a minimum of this.minTimeAtLocation per location
     for (var team = 0; team < this.numTeams; team++) {
         for (var location = 0; location < this.numLocations; location++) {
             for (var centralTimeSlot = 0; centralTimeSlot < this.numTimeSlots; centralTimeSlot++) {
                 var constraints = [];
-                for (var i = Math.min(0); i < 3; i++) {
-                    if (centralTimeSlot - i >= 0 && centralTimeSlot - i + 3 <= this.numTimeSlots) {
-                        constraints.push(Logic.and(_.range(centralTimeSlot - i, centralTimeSlot - i + 3).map(function(timeSlot) {
+                for (var i = Math.min(0); i < this.minTimeSlotsPerLocation; i++) {
+                    if (centralTimeSlot - i >= 0 && centralTimeSlot - i + this.minTimeSlotsPerLocation <= this.numTimeSlots) {
+                        constraints.push(Logic.and(_.range(centralTimeSlot - i, centralTimeSlot - i + this.minTimeSlotsPerLocation).map(function(timeSlot) {
                             return v(team, location, timeSlot);
                         })));
                     }
