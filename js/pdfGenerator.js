@@ -25,13 +25,21 @@ function pdfGenerator(schedule) {
           underline:true
       });
       doc.moveDown(2);
-      doc.fontSize(16);
+      doc.fontSize(14);
       for (j = 0; j < schedule[i].length; j++) {
 
-        doc.text(schedule[i][j].startTime.toString()+'-'+schedule[i][j].endTime.toString()+' at location '+schedule[i][j].spot.toString(), {
-            align: 'center'
+        doc.moveDown(0.5);
+        var startMinutes = schedule[i][j].startTime.getMinutes();
+        var endMinutes = schedule[i][j].endTime.getMinutes();
+        doc.text(schedule[i][j].startTime.getHours()+':'+(startMinutes.toString().length == 1 ? '0'+startMinutes : startMinutes)+'-'+schedule[i][j].endTime.getHours()+':'+(endMinutes.toString().length == 1 ? '0'+endMinutes : endMinutes), {
+            align: 'center',
+            underline:true
         })
         doc.moveDown(0.5);
+        doc.text(schedule[i][j].spot.toString(), {
+            align:'center'
+        })
+
       }
         doc.addPage();
     }
