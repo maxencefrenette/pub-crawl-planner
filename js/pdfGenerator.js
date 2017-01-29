@@ -4,16 +4,6 @@ function pdfGenerator(schedule) {
     var doc = new PDFDocument();
     var stream = doc.pipe(blobStream());
 
-    //schedule[team][data] where data.startTime, data.endTime, data.spot
-
-    // var data = {startTime:8,endTime:9,spot:1};
-    // var data1 = {startTime:10,endTime:11,spot:2};
-    // var data2 = {startTime:11,endTime:12,spot:3};
-    //
-    // var schedule = [
-    //   [data,data1,data2]
-    // ];
-
     var i;
     var j;
     for (i = 0; i < schedule.length; i++) { //iterate over all teams
