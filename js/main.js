@@ -64,7 +64,6 @@ function generate_report() {
 }
 
 function parse_routes(routes) {
-    console.log(routes);
     var locations = get_all_locations();
     var startTime = get_start_time();
     var parsed_data = [];
