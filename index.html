@@ -9,8 +9,6 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 
-    <link rel="stylesheet" href="css/lib/wickedpicker.min.css">
-
     <style>
         .fill {
             height: 50px;
@@ -82,11 +80,11 @@
         <div class="row" style="text-align: center;"><h3>Good old times</h3></div>
         <div class="row">
             <div class="input-field col s12 m6">
-                <input placeholder="" id="start_time" type="text" name="timepicker" class="timepicker" readonly>
+                <input id="start_time" type="text">
                 <label for="start_time">Start Time</label>
             </div>
             <div class="input-field col s12 m6">
-                <input placeholder="" id="end_time" type="text" name="timepicker" class="timepicker" readonly>
+                <input id="end_time" type="text">
                 <label for="end_time">End Time</label>
             </div>
         </div>
@@ -97,19 +95,24 @@
         </div>
         <div class="fill"></div>
     </div>
+
+    <!-- Libraries -->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-    <script src="js/lib/wickedpicker.min.js"></script>
-    <script src="js/lib/moment.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/chrono/1.2.5/chrono.min.js"></script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmpwpjjKGz9M4AvfbAt7QW1qdK8683fEE&libraries=places&callback=initMap">
+    </script>
     <script src="js/lib/logic-solver.js"></script>
     <script src="js/lib/pdfkit.js"></script>
+
+    <!-- Application source -->
     <script src="js/pdfGenerator.js"></script>
     <script src="js/blob-stream.js"></script>
     <script src="js/routePlanner.js"></script>
     <script src="js/main.js"></script>
-    
+
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmpwpjjKGz9M4AvfbAt7QW1qdK8683fEE&libraries=places&callback=initMap">
     </script>

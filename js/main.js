@@ -7,7 +7,6 @@ function initMap() {
 
 $(document).ready(function() {
     $('select').material_select();
-    $('.timepicker').wickedpicker();
 });
 
 
@@ -66,6 +65,16 @@ function get_final_location() {
     return $('#final_location').val();
 }
 
+function get_dates() {
+  var startTime = chrono.parse($('#start_time').val())[0].start.date();
+  var endTime = chrono.parse($('#end_time').val())[0].start.date();
+
+  return {
+    start: startTime,
+    end:endTime
+  }
+}
+
 // ########## DATA CHECKING ##########
 function check_inputs() {
     console.log("TODO: Check the address validity");
@@ -92,17 +101,16 @@ function check_inputs() {
 }
 
 function check_dates() {
-    var start_time = moment('2015-01-01, ' + $("#start_time").val(), 'YYYY-MM-DD, h:mm a');
-    var end_time = moment('2015-01-01, ' + $("#end_time").val(), 'YYYY-MM-DD, h:mm a');
-    if (!start_time) {
-        alert("The start time is not in the HH:mm AM/PM format.");
+    var time = get_dates();
+    if (!time.start) {
+        alert("The start time is empty or invalid.");
         return false;
     }
-    if (!end_time) {
-        alert("The end time is not in the HH:mm AM/PM format.");
+    if (!time.end) {
+        alert("The end time is empty or invalid.");
         return false;
     }
-    if (start_time.valueOf() > end_time.valueOf()) {
+    if (time.start > time.end) {
         alert("The end time must be aftert the start time.");
         return false;
     }
