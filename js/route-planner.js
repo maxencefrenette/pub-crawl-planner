@@ -115,6 +115,9 @@ RoutePlanner.prototype.computeRoutes = function() {
     }
 
     var solution = solver.solve();
+    if (solution == null) {
+        throw new Error("Routes could not be generated. There are too many teams and pubs and/or the event is too short.");
+    }
     var solutionMap = solution.getMap();
 
     var routes = [];
