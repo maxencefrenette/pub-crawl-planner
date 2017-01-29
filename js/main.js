@@ -101,17 +101,16 @@ function check_inputs() {
 }
 
 function check_dates() {
-    var start_time = moment('2015-01-01, ' + $("#start_time").val(), 'YYYY-MM-DD, h:mm a');
-    var end_time = moment('2015-01-01, ' + $("#end_time").val(), 'YYYY-MM-DD, h:mm a');
-    if (!start_time) {
-        alert("The start time is not in the HH:mm AM/PM format.");
+    var time = get_dates();
+    if (!time.start) {
+        alert("The start time is empty or invalid.");
         return false;
     }
-    if (!end_time) {
-        alert("The end time is not in the HH:mm AM/PM format.");
+    if (!time.end) {
+        alert("The end time is empty or invalid.");
         return false;
     }
-    if (start_time.valueOf() > end_time.valueOf()) {
+    if (time.start > time.end) {
         alert("The end time must be aftert the start time.");
         return false;
     }
