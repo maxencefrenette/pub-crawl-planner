@@ -64,6 +64,7 @@ function generate_report() {
 }
 
 function parse_routes(routes) {
+    console.log(routes);
     var locations = get_all_locations();
     var startTime = get_start_time();
     var parsed_data = [];
@@ -74,7 +75,7 @@ function parse_routes(routes) {
     routes.forEach(function(team, i){
         parsed_data[i] = [];
         team.forEach(function(timeslot, j){
-            if (timeslot !== current_location_id && in_bar) {
+            if ((timeslot !== current_location_id && in_bar) || j === team.length - 1) {
                 end_index = j-1;
                 parsed_data[i].push({startTime: new Date(startTime.getTime() + (start_index * 300000)), endTime: new Date(startTime.getTime() + (end_index * 300000)), spot: locations[current_location_id]});
                 in_bar = false;
@@ -84,9 +85,13 @@ function parse_routes(routes) {
                 start_index = j;
                 current_location_id = timeslot;
             }
+            if (j === team.length - 1) {
+
+            }
         });
     });
-    pdfGenerator(parsed_data);
+    console.log(parsed_data);
+    //pdfGenerator(parsed_data);
 }
 
 // ########## GETTERS ##########
