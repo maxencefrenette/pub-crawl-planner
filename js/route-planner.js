@@ -48,7 +48,7 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
     // A stop hosts one team at a time
     for (var location = 1; location < this.numLocations - 1; location++) {
         for (var timeSlot = 0; timeSlot < this.numTimeSlots; timeSlot++) {
-            solver.require(Logic.atMostOne(_.range(this.numTeams).map(function(team) {
+            solver.require(atMost(2, _.range(this.numTeams).map(function(team) {
                 return v(team, location, timeSlot);
             })));
         }
@@ -146,7 +146,14 @@ RoutePlanner.prototype.dist = function(a, b) {
     return this.distances.rows[a].elements[b].distance.value;
 }
 
+// ########## Helper functions ##########
+
 // Returns a variable's name as a string
 function v(team, location, timeSlot) {
     return team + ' ' + location + ' ' + timeSlot;
+}
+
+// Similar to Logic.atMostOne(), but with an arbitrary maximum
+function atMost(n, operands) {
+    return Logic.lessThanOrEqual(Logic.sum(operands), Logic.constantBits(n));
 }
