@@ -92,9 +92,18 @@ RoutePlanner.prototype.computeRoutes = function() {
   // Allocated travel time is not significantly longer than actual travel time
 
   // Teams start at the starting location
+  for (var team = 0; team < this.numTeams; team++) {
+    for (var timeSlot = 0; timeSlot < this.numTimeSlot - 1; timeSlot++) {
+      solver.require(Logic.implies(v(team, 0, timeSlot + 1), v(team, 0, timeSlot)));
+    }
+  }
 
   // Teams end at the final location
-  
+  for (var team = 0; team < this.numTeams; team++) {
+    for (var timeSlot = 0; timeSlot < this.numTimeSlot - 1; timeSlot++) {
+      solver.require(Logic.implies(v(team, this.numTimeSlot - 1, timeSlot), v(team, this.numTimeSlot - 1, timeSlot + 1)));
+    }
+  }
 }
 
 /**
