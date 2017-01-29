@@ -54,19 +54,49 @@ function generate_report() {
         return;
     }
     var num_teams = parseInt($('#team_count').val(), 10);
-    var pub_locations = get_pub_locations();
-    var initial_location = get_initial_location();
-    var final_location = get_final_location();
-    var locations = _.flatten([initial_location, pub_locations, final_location]);
+    var locations = get_all_locations();
     var time = get_dates();
 
     show_wait_message();
 
     var planner = new RoutePlanner(num_teams, locations, time.start, time.end);
-    var routes = planner.generateRoutes(console.log.bind(console));
+    planner.generateRoutes(parse_routes);
+}
+
+function parse_routes(routes) {
+    var locations = get_all_locations();
+    var startTime = get_start_time();
+    var parsed_data = [];
+    var in_bar = false;
+    var start_index = -1;
+    var end_index = -1;
+    var current_location_id = -1;
+    routes.forEach(function(team, i){
+        parsed_data[i] = [];
+        team.forEach(function(timeslot, j){
+            if (timeslot !== current_location_id && in_bar) {
+                end_index = j-1;
+                parsed_data[i].push({startTime: new Date(startTime.getTime() + (start_index * 300000)), endTime: new Date(startTime.getTime() + (end_index * 300000)), spot: locations[current_location_id]});
+                in_bar = false;
+            }
+            if (timeslot !== undefined && !in_bar) {
+                in_bar = true;
+                start_index = j;
+                current_location_id = timeslot;
+            }
+        });
+    });
+    pdfGenerator(parsed_data);
 }
 
 // ########## GETTERS ##########
+function get_all_locations() {
+    var pub_locations = get_pub_locations();
+    var initial_location = get_initial_location();
+    var final_location = get_final_location();
+    return _.flatten([initial_location, pub_locations, final_location]);
+}
+
 function get_pub_locations() {
     var locations = [];
     var i = 0;
@@ -86,9 +116,17 @@ function get_final_location() {
     return $('#final_location').val();
 }
 
+function get_start_time() {
+    return chrono.parse($('#start_time').val())[0].start.date();
+}
+
+function get_end_time() {
+    return chrono.parse($('#end_time').val())[0].start.date();
+}
+
 function get_dates() {
-  var startTime = chrono.parse($('#start_time').val())[0].start.date();
-  var endTime = chrono.parse($('#end_time').val())[0].start.date();
+  var startTime = get_start_time();
+  var endTime = get_end_time();
 
   return {
     start: startTime,
