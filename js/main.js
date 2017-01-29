@@ -40,9 +40,15 @@ $('#location_number').change(function(){
 // ########## GENERATE THE REPORT ##########
 $("#generate-btn").click(function(){
     check_inputs();
+    var num_teams = parseInt($('#team_count').val(), 10);
     var pub_locations = get_pub_locations();
     var initial_location = get_intial_location();
     var final_location = get_final_location();
+    var locations = _.flatten([initial_location, pub_locations, final_location]);
+    var time = get_dates();
+
+    var planner = new RoutePlanner(num_teams, locations, time.start, time.end);
+    var routes = planner.generateRoutes(console.log.bind(console));
 });
 
 // ########## GETTERS ##########
