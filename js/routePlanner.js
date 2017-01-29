@@ -94,10 +94,7 @@ RoutePlanner.prototype.computeRoutes = function() {
   // Teams start at the starting location
 
   // Teams end at the final location
-
-  window.solver = solver;
-  s = solver.solve();
-  console.log(s.getTrueVars());
+  
 }
 
 /**
