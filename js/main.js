@@ -142,7 +142,6 @@ function get_dates() {
 
 // ########## DATA CHECKING ##########
 function check_inputs() {
-    console.log("TODO: Check the address validity");
     if (!get_initial_location()) {
         alert("The initial location is empty.");
         return false;
