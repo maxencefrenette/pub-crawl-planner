@@ -6,7 +6,7 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
     this.endTime = endTime;
     this.timeSlotSize = 5*60*1000; // 5 minutes
     this.numTimeSlots = Math.floor((this.endTime - this.startTime) / this.timeSlotSize);
-    this.numTeamsPerLocation = 2;
+    this.numTeamsPerLocation = 3;
     this.minTimeAtLocation = 15*60*1000; // 15 minutes
     this.minTimeSlotsPerLocation = this.minTimeAtLocation / this.timeSlotSize;
     this.maxTimeTraveling = 25*60*1000; // 25 minutes
