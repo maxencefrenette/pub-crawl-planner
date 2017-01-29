@@ -9,6 +9,7 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
     this.numTeamsPerLocation = 3;
     this.minTimeAtLocation = 15*60*1000; // 15 minutes
     this.minTimeSlotsPerLocation = this.minTimeAtLocation / this.timeSlotSize;
+    this.maxTimeSlotsPerLocation = 2 * this.minTimeSlotsPerLocation - 1;
     this.maxTimeTraveling = 40*60*1000; // 25 minutes
     this.maxTimeSlotsTraveling = this.maxTimeTraveling / this.timeSlotSize;
 }
@@ -96,6 +97,15 @@ RoutePlanner.prototype.computeRoutes = function() {
                 }
                 solver.require(Logic.or(Logic.not(v(team, location, centralTimeSlot)), constraints));
             }
+        }
+    }
+
+    // Teams stay a maximum of this.maxTimeAtLocation per location
+    for (var team = 0; team < this.numTeams; team++) {
+        for (var location = 0; location < this.numLocations; location++) {
+            solver.require(atMost(this.maxTimeSlotsPerLocation, _.range(this.numTimeSlots).map(function(timeSlot) {
+                return v(team, location, timeSlot);
+            })));
         }
     }
 
