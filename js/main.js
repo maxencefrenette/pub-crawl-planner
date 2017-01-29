@@ -1,3 +1,4 @@
+// ########## UI THINGS ##########
 function initMap() {
     new google.maps.places.Autocomplete(document.getElementById('initial_location'));
     new google.maps.places.Autocomplete(document.getElementById('final_location'));
@@ -37,12 +38,16 @@ $('#location_number').change(function(){
     }
 });
 
+// ########## GENERATE THE REPORT ##########
 $("#generate-btn").click(function(){
     check_inputs();
-    var locations = get_locations();
+    var pub_locations = get_pub_locations();
+    var initial_location = get_intial_location();
+    var final_location = get_final_location();
 });
 
-function get_locations() {
+// ########## GETTERS ##########
+function get_pub_locations() {
     var locations = [];
     var i = 0;
     var element;
@@ -53,10 +58,35 @@ function get_locations() {
     return locations;
 }
 
+function get_intial_location() {
+    return $('#initial_location').val();
+}
+
+function get_final_location() {
+    return $('#final_location').val();
+}
+
+// ########## DATA CHECKING ##########
 function check_inputs() {
     console.log("TODO: Check the address validity");
     if (!parseInt($('#team_count').val(), 10)) {
         alert("The number of team is not a valid integer.");
+    }
+    if (!get_intial_location()) {
+        alert("The initial location is empty.");
+    }
+    if (!get_final_location()) {
+        alert("The final location is empty.");
+    }
+    var locations = get_pub_locations();
+    if (locations.length < 1) {
+        alert("There must be at least of pub location.");
+    }
+    for (var location of locations) {
+        if (!location) {
+            alert("There is an empty pub location.");
+            return false;
+        }
     }
     return check_dates();
 }
