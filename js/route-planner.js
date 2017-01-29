@@ -64,7 +64,7 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
                 for (var timeSlot1 = 0; timeSlot1 < this.numTimeSlots; timeSlot1++) {
                     for (var timeSlot2 = 0; timeSlot2 < this.numTimeSlots; timeSlot2++) {
                         var travelTime = this.time(location1, location2);
-                        var dt = Math.abs(timeSlot1 - timeSlot2) * this.timeSlotSize;
+                        var dt = Math.abs(timeSlot1 - timeSlot2 - 1) * this.timeSlotSize;
                         if (travelTime > dt) {
                             solver.require(Logic.not(Logic.and(v(team, location1, timeSlot1), v(team, location2, timeSlot2))));
                         }
