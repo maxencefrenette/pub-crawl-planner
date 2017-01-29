@@ -36,3 +36,30 @@ $('#location_number').change(function(){
         $('#pub'+i).focus();
     }
 });
+
+$("#generate-btn").click(function(){
+    check_inputs();
+});
+
+function check_inputs() {
+    console.log("TODO: Check the address validity");
+    check_dates();
+}
+
+function check_dates() {
+    var start_time = moment('2015-01-01, ' + $("#start_time").val(), 'YYYY-MM-DD, h:mm a');
+    var end_time = moment('2015-01-01, ' + $("#end_time").val(), 'YYYY-MM-DD, h:mm a');
+    if (!start_time) {
+        alert("The start time is not in the HH:mm AM/PM format.");
+        return false;
+    }
+    if (!end_time) {
+        alert("The end time is not in the HH:mm AM/PM format.");
+        return false;
+    }
+    if (start_time.valueOf() > end_time.valueOf()) {
+        alert("The end time must be aftert the start time.");
+        return false;
+    }
+    return true;
+}
