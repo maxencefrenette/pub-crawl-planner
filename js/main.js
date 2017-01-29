@@ -38,7 +38,19 @@ $('#location_number').change(function(){
 
 $("#generate-btn").click(function(){
     check_inputs();
+    var locations = get_locations();
 });
+
+function get_locations() {
+    var locations = [];
+    var i = 0;
+    var element;
+    while($('#pub'+i).length !== 0) {
+        locations.push($('#pub'+i).val());
+        i++;
+    }
+    return locations;
+}
 
 function get_dates() {
   var startTime = chrono.parse($('#start_time').val())[0].start.date();
