@@ -7,13 +7,19 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
     this.timeSlotSize = 5*60*1000; // 5 minutes
     this.numTimeSlots = Math.floor((this.endTime - this.startTime) / this.timeSlotSize);
     this.numTeamsPerLocation = 2;
-    this.minTimeAtLocation = 15*60*1000 // 15 minutes
+    this.minTimeAtLocation = 15*60*1000; // 15 minutes
     this.minTimeSlotsPerLocation = this.minTimeAtLocation / this.timeSlotSize;
 }
 
 RoutePlanner.prototype.generateRoutes = function(callback) {
-    this.fetchDistances((function() {
-        this.computeRoutes(callback);
+    return promise = new Promise((function(resolve, reject) {
+        this.fetchDistances((function() {
+            try {
+                resolve(this.computeRoutes());
+            } catch (e) {
+                reject(e);
+            }
+        }).bind(this));
     }).bind(this));
 }
 
@@ -36,7 +42,7 @@ RoutePlanner.prototype.fetchDistances = function(callback) {
     }).bind(this));
 }
 
-RoutePlanner.prototype.computeRoutes = function(callback) {
+RoutePlanner.prototype.computeRoutes = function() {
     var solver = new Logic.Solver();
 
     // Teams have to visit every stop
@@ -79,7 +85,7 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
         for (var location = 0; location < this.numLocations; location++) {
             for (var centralTimeSlot = 0; centralTimeSlot < this.numTimeSlots; centralTimeSlot++) {
                 var constraints = [];
-                for (var i = Math.min(0); i < this.minTimeSlotsPerLocation; i++) {
+                for (var i = 0; i < this.minTimeSlotsPerLocation; i++) {
                     if (centralTimeSlot - i >= 0 && centralTimeSlot - i + this.minTimeSlotsPerLocation <= this.numTimeSlots) {
                         constraints.push(Logic.and(_.range(centralTimeSlot - i, centralTimeSlot - i + this.minTimeSlotsPerLocation).map(function(timeSlot) {
                             return v(team, location, timeSlot);
@@ -91,7 +97,8 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
         }
     }
 
-    // Allocated travel time is not significantly longer than actual travel time
+    // Allocated travel time is not significantly longer than this.maxTravelTime
+
 
     // Teams start at the starting location
     for (var team = 0; team < this.numTeams; team++) {
@@ -124,7 +131,7 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
         }
     }
 
-    callback(routes);
+    return routes;
 }
 
 /**
@@ -149,6 +156,7 @@ RoutePlanner.prototype.dist = function(a, b) {
     return this.distances.rows[a].elements[b].distance.value;
 }
 
+
 // ########## Helper functions ##########
 
 // Returns a variable's name as a string
@@ -160,3 +168,5 @@ function v(team, location, timeSlot) {
 function atMost(n, operands) {
     return Logic.lessThanOrEqual(Logic.sum(operands), Logic.constantBits(n));
 }
+
+// ########## Exceptions ##########
