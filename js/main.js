@@ -60,7 +60,7 @@ function generate_report() {
     show_wait_message();
 
     var planner = new RoutePlanner(num_teams, locations, time.start, time.end);
-    planner.generateRoutes(parse_routes);
+    planner.generateRoutes().then(parse_routes, console.log.bind(console));
 }
 
 function parse_routes(routes) {

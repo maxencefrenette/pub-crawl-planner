@@ -12,8 +12,14 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
 }
 
 RoutePlanner.prototype.generateRoutes = function(callback) {
-    this.fetchDistances((function() {
-        this.computeRoutes(callback);
+    return promise = new Promise((function(resolve, reject) {
+        this.fetchDistances((function() {
+            try {
+                resolve(this.computeRoutes());
+            } catch (e) {
+                reject(e);
+            }
+        }).bind(this));
     }).bind(this));
 }
 
@@ -36,7 +42,7 @@ RoutePlanner.prototype.fetchDistances = function(callback) {
     }).bind(this));
 }
 
-RoutePlanner.prototype.computeRoutes = function(callback) {
+RoutePlanner.prototype.computeRoutes = function() {
     var solver = new Logic.Solver();
 
     // Teams have to visit every stop
@@ -91,7 +97,8 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
         }
     }
 
-    // Allocated travel time is not significantly longer than actual travel time
+    // Allocated travel time is not significantly longer than this.maxTravelTime
+
 
     // Teams start at the starting location
     for (var team = 0; team < this.numTeams; team++) {
@@ -124,7 +131,7 @@ RoutePlanner.prototype.computeRoutes = function(callback) {
         }
     }
 
-    callback(routes);
+    return routes;
 }
 
 /**
@@ -149,6 +156,7 @@ RoutePlanner.prototype.dist = function(a, b) {
     return this.distances.rows[a].elements[b].distance.value;
 }
 
+
 // ########## Helper functions ##########
 
 // Returns a variable's name as a string
@@ -160,3 +168,5 @@ function v(team, location, timeSlot) {
 function atMost(n, operands) {
     return Logic.lessThanOrEqual(Logic.sum(operands), Logic.constantBits(n));
 }
+
+// ########## Exceptions ##########
