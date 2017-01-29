@@ -35,42 +35,59 @@ RoutePlanner.prototype.computeRoutes = function() {
   var solver = new Logic.Solver();
 
   // Teams have to visit every stop
-  _.range(this.numTeams).forEach(function(team) {
-    _.range(this.numLocations).forEach(function(location) {
-      solver.require(Logic.or(_.range(this.numTimeSlots).map(function(timeSlot){
+  for (var team = 0; team < this.numTeams; team++) {
+    for (var location = 0; location < this.numLocations; location++) {
+      solver.require(Logic.or(_.range(this.numTimeSlots).map(function(timeSlot) {
         return v(team, location, timeSlot);
       })));
-    });
-  });
+    }
+  }
 
-  // A team is at one spot at a time
-  _.range(this.numTeams).forEach(function(team) {
-    _.range(this.numTimeSlots).forEach(function(timeSlot) {
-      solver.require(Logic.atMostOne(_.range(this.numLocations).map(function(location){
-        return v(team, location, timeSlot);
-      })));
-    });
-  });
+  // Teams visit every stop only once
+
 
   // A stop hosts one team at a time
-  _.range(this.numLocations).forEach(function(location) {
-    _.range(this.numTimeSlots).forEach(function(timeSlot) {
-      solver.require(Logic.atMostOne(_.range(this.numTeams).map(function(team){
+  for (var location = 0; location < this.numLocation; location++) {
+    for (var timeSlot = 0; timeSlot < this.numTimeSlots; timeSlot++) {
+      solver.require(Logic.atMostOne(_.range(this.numTeams).map(function(team) {
         return v(team, location, timeSlot);
       })));
-    });
-  });
+    }
+  }
 
   // It takes time to travel from one stop to another
-  _.range(this.numTeams).forEach(function(team) {
-    _.range(this.numLocations).forEach(function(location1) {
-      _.range(this.numLocations).forEach(function(location2) {
-        // TODO
-      });
-    });
-  });
+  for (var team = 0; team < this.numTeams; team++) {
+    for (var location1 = 0; location1 < this.numLocations; location1++) {
+      for (var location2 = 0; location2 < this.numLocations; location2++) {
+        for (var timeSlot1 = 0; timeSlot1 < this.numTimeSlots; timeSlot1++) {
+          for (var timeSlot2 = 0; timeSlot2 < this.numTimeSlots; timeSlot2++) {
+            var travelTime = this.time(location1, location2);
+            var dt = Math.abs(timeSlot1 - timeSlot2) * this.timeSlotSize;
+            if (travelTime > dt) {
+              solver.require(Logic.not(Logic.and(v(team, location1, timeSlot1), v(team, location2, timeSlot2))));
+            }
+          }
+        }
+      }
+    }
+  }
 
-  // Teams stay exactly 15min per stop
+  // Teams stay at least 15min per stop
+  for (var team = 0; team < this.numTeams; team++) {
+    for (var location = 0; location < this.numLocations; location++) {
+      for (var centralTimeSlot = 0; centralTimeSlot < this.numTimeSlots; centralTimeSlot++) {
+        var constraints = [];
+        for (var i = Math.min(0); i < 3; i++) {
+          if (centralTimeSlot - i >= 0 && centralTimeSlot - i + 3 < this.numTimeSlots) {
+            constraints.push(Logic.and(_.range(centralTimeSlot - i, centralTimeSlot - i + 3).map(function(timeSlot) {
+              return v(team, location, timeSlot);
+            })));
+          }
+        }
+        solver.require(Logic.or(Logic.not(v(team, location, centralTimeSlot)), constraints));
+      }
+    }
+  }
 
   // Allocated travel time is not significantly longer than actual travel time
 
@@ -78,6 +95,7 @@ RoutePlanner.prototype.computeRoutes = function() {
 
   // Teams end at the final location
 
+  window.solver = solver;
   s = solver.solve();
   console.log(s.getTrueVars());
 }
@@ -87,10 +105,10 @@ RoutePlanner.prototype.computeRoutes = function() {
 *
 * @param a The first location
 * @param b The second location
-* @return The walking time (in seconds)
+* @return The walking time (in milliseconds)
 */
 RoutePlanner.prototype.time = function(a, b) {
-  return distances.rows[a].elements[b].duration.value;
+  return 1000 * this.distances.rows[a].elements[b].duration.value;
 }
 
 /**
@@ -101,10 +119,15 @@ RoutePlanner.prototype.time = function(a, b) {
 * @return The walking distance (in meters)
 */
 RoutePlanner.prototype.dist = function(a, b) {
-  return distances.rows[a].elements[b].distance.value;
+  return this.distances.rows[a].elements[b].distance.value;
 }
 
 // Returns a variable's name as a string
 function v(team, location, timeSlot) {
   return team + ' ' + location + ' ' + timeSlot;
+}
+
+// Similar to Logic.atMostOne()
+function atMost(n, variables) {
+  // TODO
 }
