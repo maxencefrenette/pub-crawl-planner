@@ -38,9 +38,16 @@ $('#location_count').change(function(){
     }
 });
 
-function show_wait_message() {
+function show_wait_message(callback) {
     $("#generate-btn").fadeOut(300, function() {
-        $("#wait-message").hide().fadeIn(300);
+        $("#wait-message").hide().fadeIn(300, callback);
+    });
+}
+
+function hide_wait_message() {
+    $("#wait-message").css('opacity', 0.0);
+    $("#wait-message").fadeOut(300, function() {
+        $("#generate-btn").hide().fadeIn(300);
     });
 }
 
@@ -57,10 +64,15 @@ function generate_report() {
     var locations = get_all_locations();
     var time = get_dates();
 
-    show_wait_message();
+    show_wait_message(function() {
+        var planner = new RoutePlanner(num_teams, locations, time.start, time.end);
+        planner.generateRoutes().then(parse_routes, route_exception);
+    });
+}
 
-    var planner = new RoutePlanner(num_teams, locations, time.start, time.end);
-    planner.generateRoutes().then(parse_routes, console.log.bind(console));
+function route_exception(e) {
+    hide_wait_message();
+    alert(e.message);
 }
 
 function parse_routes(routes) {
