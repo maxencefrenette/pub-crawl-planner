@@ -14,8 +14,6 @@ function pdfGenerator(schedule) {
     //   [data,data1,data2]
     // ];
 
-    console.log(schedule[0][0].startTime);
-
     var i;
     var j;
     for (i = 0; i < schedule.length; i++) { //iterate over all teams
