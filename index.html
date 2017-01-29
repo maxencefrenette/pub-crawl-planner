@@ -23,15 +23,20 @@
 </head>
 
 <body>
-    <nav>
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo center">Pub Crawl Planner</a>
-        </div>
-    </nav>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo center">Pub Crawl Planner</a>
+                <!-- ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#">How It Works</a></li>
+                </ul -->
+            </div>
+        </nav>
+    </div>
     <div class="container">
         <div class="row" style="text-align: center;"><h1>Create the Perfect Pub Crawl</h1></div>
         <div class="fill"></div>
-        <div class="row" style="text-align: center;"><h3>Start and end points</h3></div>
+        <div class="row" style="text-align: center;"><h3>Everyone starts somewhere</h3></div>
         <div class="row">
             <div class="input-field col s12 m6">
                 <input placeholder="" id="initial_location" type="text" class="validate">
@@ -80,11 +85,11 @@
         <div class="row" style="text-align: center;"><h3>Good old times</h3></div>
         <div class="row">
             <div class="input-field col s12 m6">
-                <input id="start_time" type="text">
+                <input id="start_time" type="text" value="6:00pm">
                 <label for="start_time">Start Time</label>
             </div>
             <div class="input-field col s12 m6">
-                <input id="end_time" type="text">
+                <input id="end_time" type="text" value="9:00pm">
                 <label for="end_time">End Time</label>
             </div>
         </div>

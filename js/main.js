@@ -45,10 +45,16 @@ function show_wait_message() {
 
 // ########## GENERATE THE REPORT ##########
 $("#generate-btn").click(function(){
-    check_inputs();
+    generate_report();
+});
+
+function generate_report() {
+    if (!check_inputs()) {
+        return;
+    }
     var num_teams = parseInt($('#team_count').val(), 10);
     var pub_locations = get_pub_locations();
-    var initial_location = get_intial_location();
+    var initial_location = get_initial_location();
     var final_location = get_final_location();
     var locations = _.flatten([initial_location, pub_locations, final_location]);
     var time = get_dates();
@@ -57,7 +63,7 @@ $("#generate-btn").click(function(){
 
     var planner = new RoutePlanner(num_teams, locations, time.start, time.end);
     var routes = planner.generateRoutes(console.log.bind(console));
-});
+}
 
 // ########## GETTERS ##########
 function get_pub_locations() {
@@ -71,7 +77,7 @@ function get_pub_locations() {
     return locations;
 }
 
-function get_intial_location() {
+function get_initial_location() {
     return $('#initial_location').val();
 }
 
@@ -95,7 +101,7 @@ function check_inputs() {
     if (!parseInt($('#team_count').val(), 10)) {
         alert("The number of team is not a valid integer.");
     }
-    if (!get_intial_location()) {
+    if (!get_initial_location()) {
         alert("The initial location is empty.");
     }
     if (!get_final_location()) {
