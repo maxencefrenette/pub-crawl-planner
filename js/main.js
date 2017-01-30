@@ -2,7 +2,6 @@
 function initMap() {
     new google.maps.places.Autocomplete(document.getElementById('initial_location'));
     new google.maps.places.Autocomplete(document.getElementById('final_location'));
-    $('#initial_location').removeAttr();
 }
 
 // ########## UI THINGS ##########
@@ -99,9 +98,6 @@ function parse_routes(routes) {
                 start_index = j;
                 current_location_id = timeslot;
             }
-            if (j === team.length - 1) {
-
-            }
         });
     });
     pdfGenerator(parsed_data);
@@ -191,7 +187,7 @@ function check_dates() {
         return false;
     }
     if (time.start > time.end) {
-        alert("The end time must be aftert the start time.");
+        alert("The end time must be after the start time.");
         return false;
     }
     return true;
