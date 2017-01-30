@@ -1,15 +1,15 @@
-// ########## UI THINGS ##########
+// ########## Google Maps Callback ##########
 function initMap() {
     new google.maps.places.Autocomplete(document.getElementById('initial_location'));
     new google.maps.places.Autocomplete(document.getElementById('final_location'));
     $('#initial_location').removeAttr();
 }
 
+// ########## UI THINGS ##########
 $(document).ready(function() {
     $('select').material_select();
     $('.modal').modal();
 });
-
 
 $('#location_count').change(function(){
     var location_count = $('#location_count').val();
