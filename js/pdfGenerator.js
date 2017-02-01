@@ -1,12 +1,11 @@
 function pdfGenerator(schedule) {
-
-    /// create a document and pipe to a blob
+    // Create a document and pipes to a blob
     var doc = new PDFDocument();
     var stream = doc.pipe(blobStream());
 
     var i;
     var j;
-    for (i = 0; i < schedule.length; i++) { //iterate over all teams
+    for (i = 0; i < schedule.length; i++) { // Iterates over all teams
       doc.fontSize(24);
       doc.text('Team '+(i+1).toString(), {
           align:'center',
@@ -31,9 +30,10 @@ function pdfGenerator(schedule) {
       }
       if (i < schedule.length-1)
         doc.addPage();
+      }
     }
 
-    // end and display the document in the iframe to the right
+    // Display the document when it is done generating
     doc.end();
     stream.on('finish', function() {
         location.href = stream.toBlobURL('application/pdf');
