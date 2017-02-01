@@ -10,4 +10,4 @@ The output is a pdf file where each page is the schedule for a specific team. Th
 ## Try it
 Visit http://berseker59.github.io/pub-crawl-planner/.
 ### Locally
-You can run it locally since it is a client-side only app. Just open the index.html file in your browser. However, Google Chrome has some security limitations that prevents the generation of the PDF file locally. To go around it you have to desactivate this security feature (instructions on this page: http://www.chrome-allow-file-access-from-file.com/linux.html).
+You can run it locally since it is a client-side only app. Just open the index.html file in your browser. However, Google Chrome has some security limitations that prevents the generation of the PDF file locally. To go around it you have to deactivate this security feature (instructions on this page: http://www.chrome-allow-file-access-from-file.com/linux.html).
