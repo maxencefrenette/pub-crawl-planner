@@ -193,5 +193,3 @@ function v(team, location, timeSlot) {
 function atMost(n, operands) {
     return Logic.lessThanOrEqual(Logic.sum(operands), Logic.constantBits(n));
 }
-
-// ########## Exceptions ##########
