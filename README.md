@@ -8,6 +8,6 @@ The user provides multiple pub locations, a start time, a end time and a number 
 The output is a pdf file where each page is the schedule for a specific team. This way, the organizer can simply print the document and give one page to each team leader.
 
 ## Try it
-Visit http://maximeplante.me/pub-crawl-planner/.
+Visit http://berseker59.github.io/pub-crawl-planner/.
 ### Locally
 You can run it locally since it is a client-side only app. Just open the index.html file in your browser. However, Google Chrome has some security limitations that prevents the generation of the PDF file locally. To go around it you have to desactivate this security feature (instructions on this page: http://www.chrome-allow-file-access-from-file.com/linux.html).
