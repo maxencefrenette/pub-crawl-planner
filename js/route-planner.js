@@ -81,7 +81,7 @@ RoutePlanner.prototype.computeRoutes = function() {
 }
 
 // Teams start at the starting location
-RoutePlanner.protoype.startLocationConstraint = function() {
+RoutePlanner.prototype.startLocationConstraint = function() {
     var constraints = [];
     for (var team = 0; team < this.numTeams; team++) {
         for (var timeSlot = 0; timeSlot < this.numTimeSlots - 1; timeSlot++) {
@@ -197,7 +197,7 @@ RoutePlanner.prototype.maxTimeTravellingConstraint = function() {
                     return v(team, location, timeSlot+i);
                 })));
             }
-            solver.require(Logic.or(constraints));
+            constraints.push(Logic.or(constraints));
         }
     }
     return Logic.and(constraints);
