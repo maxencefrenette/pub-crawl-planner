@@ -11,6 +11,6 @@ The output is a pdf file where each page is the schedule for a specific team. Th
 Visit http://berseker59.github.io/pub-crawl-planner/.
 
 ### Locally
-* npm install
-* npm start
-*navigate to http://localhost:8000
+* Install the dependencies: ```npm install```
+* Run the development server: ```npm start```
+* Navigate to http://localhost:8000
