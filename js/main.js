@@ -1,5 +1,11 @@
+import $ from 'jquery';
+import chrono from 'chrono-node';
+
+import RoutePlanner from './route-planner';
+import pdfGenerator from './pdfGenerator';
+
 // ########## Google Maps Callback ##########
-function initMap() {
+window.initMap = function() {
     new google.maps.places.Autocomplete(document.getElementById('initial_location'));
     new google.maps.places.Autocomplete(document.getElementById('final_location'));
 }

@@ -1,3 +1,6 @@
+import PDFDocument from 'pdfkit';
+import blobStream from 'blob-stream';
+
 function pdfGenerator(schedule) {
     // Create a document and pipes to a blob
     var doc = new PDFDocument();
@@ -28,7 +31,7 @@ function pdfGenerator(schedule) {
         })
 
       }
-      if (i < schedule.length-1)
+      if (i < schedule.length-1) {
         doc.addPage();
       }
     }
@@ -39,3 +42,5 @@ function pdfGenerator(schedule) {
         location.href = stream.toBlobURL('application/pdf');
     });
 }
+
+export default pdfGenerator;
