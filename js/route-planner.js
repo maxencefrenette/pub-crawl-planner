@@ -104,7 +104,7 @@ RoutePlanner.prototype.computeRoutes = function() {
     // Teams stay a maximum of this.maxTimeAtLocation per location
     var maxTimeSlotsPerLocation = Math.floor(this.maxTimeAtLocation / this.timeSlotSize);
     for (var team = 0; team < this.numTeams; team++) {
-        for (var location = 0; location < this.numLocations; location++) {
+        for (var location = 1; location < this.numLocations - 1; location++) {
             solver.require(atMost(maxTimeSlotsPerLocation, _.range(this.numTimeSlots).map(function(timeSlot) {
                 return v(team, location, timeSlot);
             })));
