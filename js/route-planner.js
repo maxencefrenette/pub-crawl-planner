@@ -67,7 +67,7 @@ RoutePlanner.prototype.computeRoutes = function() {
             })));
         }
     }
-/*
+
     // It takes time to travel from one stop to another
     for (var team = 0; team < this.numTeams; team++) {
         for (var location1 = 0; location1 < this.numLocations; location1++) {
@@ -136,7 +136,7 @@ RoutePlanner.prototype.computeRoutes = function() {
         for (var timeSlot = 0; timeSlot < this.numTimeSlots - 1; timeSlot++) {
             solver.require(Logic.implies(v(team, this.numLocations - 1, timeSlot), v(team, this.numLocations - 1, timeSlot + 1)));
         }
-    }*/
+    }
 
     var solution = solver.solve();
     if (solution == null) {
