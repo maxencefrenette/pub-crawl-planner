@@ -98,10 +98,31 @@
         <div class="fill"></div>
         <div class="row" style="text-align: center;"><h3>Let's go!</h3></div>
         <div class="row" style="text-align: center;">
-            <button id="generate-btn" class="waves-effect waves-light btn">Generate best route</button>
+            <div class="col s12 l5 offset-l1">
+                <button class="btn waves-effect waves-light" id="generate-btn" style="width: 100%;">Generate routes PDF
+                    <i class="material-icons right">print</i>
+                </button>
+            </div>
+            <div class="col s12 l5">
+                <button class="btn waves-effect waves-light blue" id="share_btn" style="width: 100%;">Share this pub crawl
+                    <i class="material-icons right">share</i>
+                </button>
+                <div class="col s12" id="share_url_container" style="display: none;">
+                    Copy this link:
+                    <div class="input-field inline">
+                        <input id="share_url" type="text">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col s12" id="wait-message" style="display:none; opacity: 0.99;">
+
+        </div>
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;">
+
+        </div>
+        <div class="row" id="wait-message" style="display:none; opacity: 0.99;">
+            <div class="col s12">
                 <div class="progress">
                     <div class="indeterminate"></div>
                 </div>

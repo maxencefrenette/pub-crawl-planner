@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import chrono from 'chrono-node';
+import URLParser from 'url-parse';
 
 import fetchDistanceMatrix from './distance-service';
 import RoutePlanner from './route-planner';
@@ -9,18 +10,24 @@ import pdfGenerator from './pdfGenerator';
 window.initMap = function() {
     new google.maps.places.Autocomplete(document.getElementById('initial_location'));
     new google.maps.places.Autocomplete(document.getElementById('final_location'));
+    autofillFromURL();
 }
 
 // ########## UI THINGS ##########
 $(document).ready(function() {
     $('select').material_select();
     $('.modal').modal();
+    $('#share_btn').click(show_share_url);
 });
 
 $('#location_count').change(function(){
     var location_count = $('#location_count').val();
+    generate_location_inputs(location_count);
+});
+
+function generate_location_inputs(count) {
     var out = "";
-    for(var i=0;i<location_count;i++) {
+    for(var i=0;i<count;i++) {
         if ($('#pub'+i)) {
             var previous_content = $('#pub'+i).val();
         }
@@ -37,12 +44,12 @@ $('#location_count').change(function(){
     }
     $("#locations").html(out);
     $('select').material_select();
-    for(var i=0;i<location_count;i++) {
+    for(var i=0;i<count;i++) {
         new google.maps.places.Autocomplete(document.getElementById('pub'+i));
         // Solves a bug where the input label would overlap the already present content
         $('#pub'+i).focus();
     }
-});
+}
 
 function show_wait_message(callback) {
     $("#generate-btn").fadeOut(300, function() {
@@ -57,6 +64,76 @@ function hide_wait_message() {
     });
 }
 
+function show_share_url() {
+    if (!check_inputs()) {
+        return;
+    }
+    $('#share_url').val(generateShareURL());
+    $('#share_url_container').fadeIn(function() {
+        $('#share_url').focus();
+        $('#share_url').select();
+    });
+}
+
+// ########## SHARING ##########
+function generateShareURL() {
+    var url = new URLParser(location.href);
+
+    // Fetching the initial and final locations
+    var initialLocation = get_initial_location();
+    var finalLocation = get_final_location();
+    var parameters = {
+        initial: initialLocation,
+        final: finalLocation
+    }
+
+    // Converting the pub locations in the right array format
+    var pubLocations = get_pub_locations();
+    for(var i = 0; i < pubLocations.length; i++) {
+        parameters['pub'+i] = pubLocations[i];
+    }
+
+    // Fetching start time and end time
+    parameters['start'] = get_start_time_raw();
+    parameters['end'] = get_end_time_raw();
+
+    // Fetching, guess what, team count
+    parameters['team'] = get_team_count();
+
+    // Generating the url
+    url.set("query", parameters);
+    return url.toString();
+}
+
+function autofillFromURL() {
+    var url = new URLParser(location.href, true);
+    var parameters = url.query;
+
+    if (parameters.initial) {
+        set_initial_location(parameters.initial);
+    }
+    if (parameters.final) {
+        set_final_location(parameters.final);
+    }
+    if (parameters.team) {
+        set_team_count(parameters.team);
+    }
+    if (parameters.start) {
+        set_start_time(parameters.start);
+    }
+    if (parameters.end) {
+        set_end_time(parameters.end);
+    }
+
+    var locations = [];
+    var i = 0;
+    while (parameters['pub'+i] !== undefined) {
+        locations.push(parameters['pub'+i]);
+        i++;
+    }
+    set_pub_locations(locations);
+}
+
 // ########## GENERATE THE REPORT ##########
 $("#generate-btn").click(function(){
     generate_report();
@@ -66,7 +143,7 @@ function generate_report() {
     if (!check_inputs()) {
         return;
     }
-    var num_teams = parseInt($('#team_count').val(), 10);
+    var num_teams = get_team_count();
     var locations = get_all_locations();
     var time = get_dates();
 
@@ -129,20 +206,62 @@ function get_pub_locations() {
     return locations;
 }
 
+function set_pub_locations(locations) {
+    $("#location_count").val(locations.length);
+    generate_location_inputs(locations.length);
+    var i = 0;
+    while($('#pub'+i).length !== 0 && i < locations.length) {
+        $('#pub'+i).val(locations[i]);
+        i++;
+    }
+}
+
 function get_initial_location() {
     return $('#initial_location').val();
+}
+
+function set_initial_location(location) {
+    $('#initial_location').val(location);
 }
 
 function get_final_location() {
     return $('#final_location').val();
 }
 
+function set_final_location(location) {
+    $('#final_location').val(location);
+}
+
 function get_start_time() {
     return chrono.parse($('#start_time').val())[0].start.date();
 }
 
+function get_start_time_raw() {
+    return $('#start_time').val();
+}
+
+function set_start_time(time) {
+    $('#start_time').val(time);
+}
+
 function get_end_time() {
     return chrono.parse($('#end_time').val())[0].start.date();
+}
+
+function get_end_time_raw() {
+    return $('#end_time').val();
+}
+
+function set_end_time(time) {
+    $('#end_time').val(time);
+}
+
+function get_team_count() {
+    return parseInt($('#team_count').val(), 10);
+}
+
+function set_team_count(count) {
+    $('#team_count').val(count);
 }
 
 function get_dates() {

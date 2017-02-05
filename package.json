@@ -8,7 +8,8 @@
   "dependencies": {
     "blob-stream": "^0.1.3",
     "chrono-node": "^1.2.5",
-    "logic-solver": "^2.0.1"
+    "logic-solver": "^2.0.1",
+    "url-parse": "^1.1.7"
   },
   "devDependencies": {
     "webpack": "^2.2.1",
