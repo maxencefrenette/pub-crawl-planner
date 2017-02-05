@@ -27,17 +27,14 @@ $('#location_count').change(function(){
 
 function generate_location_inputs(count) {
     var out = "";
+    var previous_locations = [];
     for(var i=0;i<count;i++) {
         if ($('#pub'+i)) {
-            var previous_content = $('#pub'+i).val();
+            previous_locations.push($('#pub'+i).val());
         }
         out += '<div class="row">';
         out += '   <div class="input-field col s12">';
-        if (previous_content) {
-            out += '        <input placeholder="" id="pub'+i+'" type="text" class="validate" value='+previous_content+'>';
-        } else {
-            out += '        <input placeholder="" id="pub'+i+'" type="text" class="validate">';
-        }
+        out += '        <input placeholder="" id="pub'+i+'" type="text" class="validate">';
         out += '        <label for="pub'+i+'">Pub '+(i+1)+' location</label>';
         out += '   </div>';
         out += '</div>';
@@ -48,6 +45,7 @@ function generate_location_inputs(count) {
         new google.maps.places.Autocomplete(document.getElementById('pub'+i));
         // Solves a bug where the input label would overlap the already present content
         $('#pub'+i).focus();
+        $('#pub'+i).val(previous_locations[i]);
     }
     $('#pub0').focus();
 }
