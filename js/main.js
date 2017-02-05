@@ -49,6 +49,7 @@ function generate_location_inputs(count) {
         // Solves a bug where the input label would overlap the already present content
         $('#pub'+i).focus();
     }
+    $('#pub0').focus();
 }
 
 function show_wait_message(callback) {
