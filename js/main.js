@@ -57,7 +57,6 @@ function show_wait_message(callback) {
 }
 
 function hide_wait_message() {
-    $("#wait-message").css('opacity', 0.0);
     $("#wait-message").fadeOut(300, function() {
         $("#generate-btn").hide().fadeIn(300);
     });
