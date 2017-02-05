@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import chrono from 'chrono-node';
 
+import fetchDistanceMatrix from './distance-service';
 import RoutePlanner from './route-planner';
 import pdfGenerator from './pdfGenerator';
 
@@ -70,7 +71,7 @@ function generate_report() {
     var time = get_dates();
 
     show_wait_message(function() {
-        var planner = new RoutePlanner(num_teams, locations, time.start, time.end);
+        var planner = new RoutePlanner(num_teams, locations, time.start, time.end, fetchDistanceMatrix);
         planner.generateRoutes().then(parse_routes, route_exception);
     });
 }

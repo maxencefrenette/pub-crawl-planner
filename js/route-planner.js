@@ -1,6 +1,8 @@
+import _ from 'underscore';
+
 import Logic from 'logic-solver';
 
-function RoutePlanner(numTeams, locations, startTime, endTime) {
+function RoutePlanner(numTeams, locations, startTime, endTime, fetchDistanceMatrix) {
     /**
      * The number of teams participating to the crawl
      */
@@ -19,6 +21,10 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
      * End time of the event
      */
     this.endTime = endTime;
+    /**
+     * Reference to a method that fetches a distanceMatrix
+     */
+     this.fetchDistanceMatrix = fetchDistanceMatrix;
     /**
      * Size of the discrete time slots used to generate the routes.
      */
@@ -44,32 +50,14 @@ function RoutePlanner(numTeams, locations, startTime, endTime) {
 
 RoutePlanner.prototype.generateRoutes = function(callback) {
     return new Promise((function(resolve, reject) {
-        this.fetchDistances((function() {
+        this.fetchDistanceMatrix(this.locations, (function(distanceMatrix) {
             try {
+                this.distanceMatrix = distanceMatrix;
                 resolve(this.computeRoutes());
             } catch (e) {
                 reject(e);
             }
         }).bind(this));
-    }).bind(this));
-}
-
-RoutePlanner.prototype.fetchDistances = function(callback) {
-    var distanceService = new google.maps.DistanceMatrixService();
-    distanceService.getDistanceMatrix({
-        origins: this.locations,
-        destinations: this.locations,
-        travelMode: google.maps.TravelMode.WALKING,
-        unitSystem: google.maps.UnitSystem.METRIC,
-        durationInTraffic: true
-    },
-    (function (response, status) {
-        if (status !== google.maps.DistanceMatrixStatus.OK) {
-            console.log('Error:', status);
-        } else {
-            this.distances = response;
-            callback();
-        }
     }).bind(this));
 }
 
@@ -239,7 +227,7 @@ RoutePlanner.prototype.maxTimeTravellingConstraint = function() {
 * @return The walking time (in milliseconds)
 */
 RoutePlanner.prototype.time = function(a, b) {
-    return 1000 * this.distances.rows[a].elements[b].duration.value;
+    return 1000 * this.distanceMatrix[a][b].time;
 }
 
 /**
@@ -250,7 +238,7 @@ RoutePlanner.prototype.time = function(a, b) {
 * @return The walking distance (in meters)
 */
 RoutePlanner.prototype.dist = function(a, b) {
-    return this.distances.rows[a].elements[b].distance.value;
+    return this.distanceMatrix[a][b].distance;
 }
 
 
