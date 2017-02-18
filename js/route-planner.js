@@ -228,13 +228,13 @@ RoutePlanner.prototype.maxTimeTravellingConstraint = function() {
     var maxTimeSlotsTraveling = this.maxTimeTraveling / this.timeSlotSize;
     for (var team = 0; team < this.numTeams; team++) {
         for (var timeSlot = 0; timeSlot < this.numTimeSlots - maxTimeSlotsTraveling; timeSlot++) {
-            var constraints = [];
+            var constraints2 = [];
             for (var i = 0; i < maxTimeSlotsTraveling; i++) {
-                constraints.push(Logic.or(_.range(this.numLocations).map(function(location) {
+                constraints2.push(Logic.or(_.range(this.locations.length).map(function(location) {
                     return v(team, location, timeSlot+i);
                 })));
             }
-            constraints.push(Logic.or(constraints));
+            constraints.push(Logic.or(constraints2));
         }
     }
     return Logic.and(constraints);
