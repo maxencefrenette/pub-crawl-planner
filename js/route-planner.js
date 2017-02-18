@@ -83,7 +83,7 @@ RoutePlanner.prototype.computeRoutes = function(displayMessage) {
     solver.require(this.maxTimeAtLocationConstraint());
     this.assertSolution(solver.solve());
 
-    displayMessage('Ensuring that teams aren\'t given more than' + (this.maxTimeTraveling / 60000) + 'min between two stops...');
+    displayMessage('Ensuring that teams aren\'t given more than ' + (this.maxTimeTraveling / 60000) + 'min between two stops...');
     solver.require(this.maxTimeTravellingConstraint());
     this.assertSolution(solver.solve());
 
