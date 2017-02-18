@@ -202,7 +202,7 @@ RoutePlanner.prototype.minTimeAtLocationConstraint = function() {
                         })));
                     }
                 }
-                constraints.push(Logic.or(Logic.not(v(team, location, centralTimeSlot)), constraints));
+                constraints.push(Logic.or(Logic.not(v(team, location, centralTimeSlot)), constraints2));
             }
         }
     }
