@@ -39,7 +39,8 @@ function pdfGenerator(schedule) {
     // Display the document when it is done generating
     doc.end();
     stream.on('finish', function() {
-        location.href = stream.toBlobURL('application/pdf');
+        var newTab = window.open(stream.toBlobURL('application/pdf'), '_blank');
+        newTab.focus();
     });
 }
 
