@@ -113,7 +113,7 @@ RoutePlanner.prototype.computeRoutes = function(displayMessage) {
 
 RoutePlanner.prototype.assertSolution = function(solution) {
     if (solution == null) {
-        throw new Error("Routes could not be generated. There are too many teams and pubs and/or the event is too short.");
+        throw new Error("There are too many teams and pubs and/or the event is too short.");
     }
 }
 

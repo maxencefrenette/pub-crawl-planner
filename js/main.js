@@ -156,8 +156,9 @@ function generate_report() {
 }
 
 function route_exception(e) {
-    hide_wait_message();
-    alert(e.message);
+    $('#error-modal-description').text(e.message);
+    $('#error-modal').modal({ complete: hide_wait_message });
+    $('#error-modal').modal('open');
 }
 
 function parse_routes(routes) {
