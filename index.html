@@ -106,7 +106,7 @@
                     <div class="progress">
                         <div class="indeterminate"></div>
                     </div>
-                    <p>Sit back while the awesomess is generating...</p>
+                    <p id="wait-message-contents">Sit back while the awesomess is generating...</p>
                 </div>
             </div>
             <div class="col s12 l5">
@@ -128,6 +128,18 @@
             <div class="modal-content">
                 <h4>How It Works</h4>
                 <p>The <strong>Pub Crawl Planner</strong> makes it super easy to organize pub crawl events. You give it a bunch of pub locations and it will generate a crawling schedule for every team making sure they walk the shortest path between pubs. The <strong>Pub Crawl Planner</strong> will make sure that there will never be more than three teams at the same pub at the same time.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+        <div id="error-modal" class="modal">
+            <div class="modal-content">
+                <h4>Error generating routes</h4>
+                <p>
+                    The routes could not be generated because of the following error:<br>
+                    <i id="error-modal-description"></i>
+                </p>
             </div>
             <div class="modal-footer">
                 <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
