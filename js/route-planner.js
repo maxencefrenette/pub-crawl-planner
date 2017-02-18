@@ -57,7 +57,7 @@ RoutePlanner.prototype.generateRoutes = function(displayMessage) {
             } catch (e) {
                 reject(e);
             }
-        }).bind(this));
+        }).bind(this), reject);
     }).bind(this));
 }
 

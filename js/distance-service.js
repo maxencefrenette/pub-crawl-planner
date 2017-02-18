@@ -18,7 +18,7 @@ function fetchDistanceMatrix(locations) {
         },
         (function (response, status) {
             if (status !== google.maps.DistanceMatrixStatus.OK) {
-                console.log('Error:', status);
+                reject(new Error('Couldn\'t load distances from google maps: ' + status));
             } else {
                 var distanceMatrix = [];
                 for (var i = 0; i < locations.length; i++) {
