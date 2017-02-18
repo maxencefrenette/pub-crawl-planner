@@ -1,0 +1,151 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <title>Pub Crawl Planner</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+
+    <style>
+        .fill {
+            height: 50px;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!--[if lt IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo center">Pub Crawl Planner</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a class="waves-effect waves-light btn" href="#how-modal">How It Works</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row" style="text-align: center;"><h1>Create the Perfect Pub Crawl</h1></div>
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;"><h3>Everyone starts somewhere</h3></div>
+        <div class="row">
+            <div class="input-field col s12 m6">
+                <input placeholder="" id="initial_location" type="text" class="validate">
+                <label for="initial_location">Initial location</label>
+            </div>
+            <div class="input-field col s12 m6">
+                <input placeholder="" id="final_location" type="text" class="validate">
+                <label for="final_location">Final location (where everyone meets at the end)</label>
+            </div>
+        </div>
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;"><h3>Where ya at?</h3></div>
+        <div class="row">
+            <div class="input-field col s12 m4">
+                <select id="location_count">
+                    <option value="" disabled selected>How many pubs?</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                </select>
+                <label for="location_count">Pub select</label>
+            </div>
+        </div>
+        <div id="locations"></div>
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;"><h3>The people</h3></div>
+        <div class="row">
+            <div class="col s12 m2">
+                <label for="team_count">How many teams?</label>
+                <input id="team_count" type="text" value="10">
+            </div>
+        </div>
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;"><h3>Good old times</h3></div>
+        <div class="row">
+            <div class="input-field col s12 m6">
+                <input id="start_time" type="text" value="17:30">
+                <label for="start_time">Start Time</label>
+            </div>
+            <div class="input-field col s12 m6">
+                <input id="end_time" type="text" value="22:00">
+                <label for="end_time">End Time</label>
+            </div>
+        </div>
+        <div class="fill"></div>
+        <div class="row" style="text-align: center;"><h3>Let's go!</h3></div>
+        <div class="row" style="text-align: center;">
+            <div class="col s12 l5 offset-l1">
+                <button class="btn waves-effect waves-light" id="generate-btn" style="width: 100%;">Generate routes PDF
+                    <i class="material-icons right">print</i>
+                </button>
+                <div id="wait-message" style="display: none;">
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                    <p>Sit back while the awesomess is generating...</p>
+                </div>
+            </div>
+            <div class="col s12 l5">
+                <button class="btn waves-effect waves-light blue" id="share_btn" style="width: 100%;">Share this pub crawl
+                    <i class="material-icons right">share</i>
+                </button>
+                <div class="col s12" id="share_url_container" style="display: none;">
+                    Copy this link:
+                    <div class="input-field inline">
+                        <input id="share_url" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+        <div class="fill"></div>
+        <div id="how-modal" class="modal">
+            <div class="modal-content">
+                <h4>How It Works</h4>
+                <p>The <strong>Pub Crawl Planner</strong> makes it super easy to organize pub crawl events. You give it a bunch of pub locations and it will generate a crawling schedule for every team making sure they walk the shortest path between pubs. The <strong>Pub Crawl Planner</strong> will make sure that there will never be more than three teams at the same pub at the same time.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="js/lib/pdfkit.js"></script>
+
+    <!-- Application source -->
+    <script src="dist/bundle.js"></script>
+
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxbP07Yht39Q-24RnTMwr1HS_SqMF5Ul8&libraries=places&callback=initMap">
+    </script>
+</body>
+</html>
