@@ -56,6 +56,10 @@ function show_wait_message(callback) {
     });
 }
 
+function change_wait_message(newMessage) {
+    $("#wait-message-contents").text(newMessage);
+}
+
 function hide_wait_message() {
     $("#wait-message").fadeOut(300, function() {
         $("#generate-btn").hide().fadeIn(300);
@@ -147,7 +151,7 @@ function generate_report() {
 
     show_wait_message(function() {
         var planner = new RoutePlanner(num_teams, locations, time.start, time.end, fetchDistanceMatrix);
-        planner.generateRoutes().then(parse_routes, route_exception);
+        planner.generateRoutes(change_wait_message).then(parse_routes, route_exception);
     });
 }
 
@@ -157,6 +161,7 @@ function route_exception(e) {
 }
 
 function parse_routes(routes) {
+    change_wait_message("Generating PDF...");
     var locations = get_all_locations();
     var startTime = get_start_time();
     var parsed_data = [];

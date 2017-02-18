@@ -48,12 +48,12 @@ function RoutePlanner(numTeams, locations, startTime, endTime, fetchDistanceMatr
     this.maxTimeTraveling = 40*60*1000; // 25 minutes
 }
 
-RoutePlanner.prototype.generateRoutes = function(callback) {
+RoutePlanner.prototype.generateRoutes = function(displayMessage) {
     return new Promise((function(resolve, reject) {
         this.fetchDistanceMatrix(this.locations, (function(distanceMatrix) {
             try {
                 this.distanceMatrix = distanceMatrix;
-                resolve(this.computeRoutes());
+                resolve(this.computeRoutes(displayMessage));
             } catch (e) {
                 reject(e);
             }
@@ -61,18 +61,33 @@ RoutePlanner.prototype.generateRoutes = function(callback) {
     }).bind(this));
 }
 
-RoutePlanner.prototype.computeRoutes = function() {
+RoutePlanner.prototype.computeRoutes = function(displayMessage) {
     var solver = new Logic.Solver();
 
+    displayMessage('Generating basic routes...');
     solver.require(this.startLocationConstraint());
     solver.require(this.endLocationConstraint());
     solver.require(this.distanceConstraint());
     solver.require(this.visitEveryLocationConstraint());
-    solver.require(this.teamsPerLocationConstraint());
-    solver.require(this.minTimeAtLocationConstraint());
-    solver.require(this.maxTimeAtLocationConstraint());
-    solver.require(this.maxTimeTravellingConstraint());
+    this.assertSolution(solver.solve());
 
+    displayMessage('Ensuring no more than ' + this.numTeamsPerLocation + ' teams are at the same location at once...');
+    solver.require(this.teamsPerLocationConstraint());
+    this.assertSolution(solver.solve());
+
+    displayMessage('Ensuring teams spend at least ' + (this.minTimeAtLocation / 60000) + 'min per location...');
+    solver.require(this.minTimeAtLocationConstraint());
+    this.assertSolution(solver.solve());
+
+    displayMessage('Ensuring teams don\'t spend more than ' + (this.maxTimeAtLocation / 60000) + 'min per location...');
+    solver.require(this.maxTimeAtLocationConstraint());
+    this.assertSolution(solver.solve());
+
+    displayMessage('Ensuring that teams aren\'t given more than' + (this.maxTimeTraveling / 60000) + 'min between two stops...');
+    solver.require(this.maxTimeTravellingConstraint());
+    this.assertSolution(solver.solve());
+
+    displayMessage('Parsing solution...');
     var solution = solver.solve();
     if (solution == null) {
         throw new Error("Routes could not be generated. There are too many teams and pubs and/or the event is too short.");
@@ -94,6 +109,12 @@ RoutePlanner.prototype.computeRoutes = function() {
     }
 
     return routes;
+}
+
+RoutePlanner.prototype.assertSolution = function(solution) {
+    if (solution == null) {
+        throw new Error("Routes could not be generated. There are too many teams and pubs and/or the event is too short.");
+    }
 }
 
 // Teams start at the starting location
