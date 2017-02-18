@@ -50,7 +50,7 @@ function RoutePlanner(numTeams, locations, startTime, endTime, fetchDistanceMatr
 
 RoutePlanner.prototype.generateRoutes = function(displayMessage) {
     return new Promise((function(resolve, reject) {
-        this.fetchDistanceMatrix(this.locations, (function(distanceMatrix) {
+        this.fetchDistanceMatrix(this.locations).then((function(distanceMatrix) {
             try {
                 this.distanceMatrix = distanceMatrix;
                 resolve(this.computeRoutes(displayMessage));
