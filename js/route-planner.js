@@ -68,10 +68,10 @@ RoutePlanner.prototype.computeRoutes = function() {
     solver.require(this.endLocationConstraint());
     solver.require(this.distanceConstraint());
     solver.require(this.visitEveryLocationConstraint());
-    solver.require(this.teamsPerLocationConstraint());
-    solver.require(this.minTimeAtLocationConstraint());
-    solver.require(this.maxTimeAtLocationConstraint());
-    solver.require(this.maxTimeTravellingConstraint());
+    //solver.require(this.teamsPerLocationConstraint());
+    //solver.require(this.minTimeAtLocationConstraint());
+    //solver.require(this.maxTimeAtLocationConstraint());
+    //solver.require(this.maxTimeTravellingConstraint());
 
     var solution = solver.solve();
     if (solution == null) {
