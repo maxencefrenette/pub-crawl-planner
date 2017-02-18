@@ -10,13 +10,18 @@
  */
 function fetchDistanceMatrix(locations) {
     return new Promise(function(resolve, reject) {
-        const firstHalf = locations.splice(0, locations.length / 2);
-        const secondHalf = locations.splice(locations.length / 2, locations.length);
-        const p1 = fetchRawDistanceMatrix(firstHalf, locations, 0);
-        const p2 = fetchRawDistanceMatrix(secondHalf, locations, 1000);
+        const maxElements = 100;
+        const chunkSize = Math.floor(maxElements / locations.length);
+        var promises = [];
 
-        Promise.all([p1, p2]).then(function(subMatrices) {
-            resolve(_.union(subMatrices[0], subMatrices[1]));
+        for(var i = 0; chunkSize * i < locations.length; i++) {
+            const chunkEnd = Math.min(chunkSize * (i + 1), locations.length);
+            const chunk = locations.slice(chunkSize * i, chunkEnd);
+            promises.push(fetchRawDistanceMatrix(chunk, locations, 10000 * i));
+        }
+
+        Promise.all(promises).then(function(subMatrices) {
+            resolve(_.flatten(subMatrices, true));
         }, reject);
     });
 }
@@ -55,7 +60,7 @@ function fetchRawDistanceMatrix(origins, destinations, delay) {
                     resolve(distanceMatrix);
                 }
             }).bind(this));
-        }, 1000);
+        }, delay);
     });
 }
 
