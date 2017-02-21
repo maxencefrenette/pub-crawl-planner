@@ -8,7 +8,7 @@ The user provides multiple pub locations, a start time, a end time and a number 
 The output is a pdf file where each page is the schedule for a specific team. This way, the organizer can simply print the document and give one page to each team leader.
 
 ## Try it
-Visit http://berseker59.github.io/pub-crawl-planner/.
+Visit https://maxencefrenette.github.io/pub-crawl-planner/.
 
 ### Locally
 * Install the dependencies: ```npm install```
